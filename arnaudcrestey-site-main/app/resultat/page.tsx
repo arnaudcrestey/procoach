@@ -332,7 +332,7 @@ export default function ResultPage() {
 
   <input
     type="email"
-    placeholder="Votre email pour recevoir votre analyse"
+    placeholder="Votre email"
     value={email}
     onChange={(e)=>setEmail(e.target.value)}
     required
@@ -343,6 +343,7 @@ export default function ResultPage() {
 
     <input
       type="date"
+      placeholder="Votre date de naissance"
       value={birthDate}
       onChange={(e)=>setBirthDate(e.target.value)}
       required
@@ -351,6 +352,7 @@ export default function ResultPage() {
 
     <input
       type="time"
+      placeholder="Votre heure de naissance"
       value={birthTime}
       onChange={(e)=>setBirthTime(e.target.value)}
       className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
