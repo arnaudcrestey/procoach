@@ -16,7 +16,7 @@ const questions = [
 "Je ressens que mon travail contribue réellement à quelque chose d'important."
 ];
 
-export default function DiagnosticPage() {
+export default function DiagnosticPage(){
 
 const router = useRouter();
 
@@ -26,7 +26,7 @@ const [animating,setAnimating] = useState(false);
 const index = answers.length;
 const question = questions[index];
 
-const progress = ((index )/questions.length)*100;
+const progress = ((index)/questions.length)*100;
 
 function answer(value:number){
 
@@ -58,19 +58,21 @@ router.push("/resultat");
 
 return(
 
-<main className="flex min-h-screen items-center justify-center px-6">
+<main className="flex min-h-screen items-center justify-center px-4 sm:px-6">
 
-<div className="glass w-full max-w-3xl rounded-3xl p-12 text-center">
+<div className="glass w-full max-w-xl lg:max-w-2xl rounded-3xl p-6 sm:p-10 text-center">
 
-<h1 className="text-4xl font-bold mb-10">
+<h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8">
 Diagnostic professionnel
 </h1>
 
-<div className="mb-10">
+<div className="mb-6 sm:mb-8">
 
-<div className="flex justify-between text-sm text-white/60 mb-3">
+<div className="flex justify-between text-xs sm:text-sm text-white/60 mb-2">
 
-<span>Question {Math.min(index , questions.length)} sur {questions.length}</span>
+<span>
+Question {Math.min(index,questions.length)} sur {questions.length}
+</span>
 
 <span>{Math.round(progress)}%</span>
 
@@ -87,36 +89,36 @@ style={{width:`${progress}%`}}
 
 </div>
 
-<p className={`text-3xl mb-12 transition-opacity duration-300 ${animating?"opacity-0":"opacity-100"}`}>
+<p className={`text-xl sm:text-2xl lg:text-3xl mb-8 sm:mb-10 transition-opacity duration-300 ${animating?"opacity-0":"opacity-100"}`}>
 {question}
 </p>
 
-<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
 
 <button
 onClick={()=>answer(1)}
-className="rounded-2xl bg-white/10 py-5 text-lg font-medium hover:bg-red-500/20 transition"
+className="rounded-2xl bg-white/10 py-4 text-base sm:text-lg font-medium hover:bg-red-500/20 active:scale-95 transition"
 >
 Pas du tout
 </button>
 
 <button
 onClick={()=>answer(3)}
-className="rounded-2xl bg-white/10 py-5 text-lg font-medium hover:bg-yellow-400/20 transition"
+className="rounded-2xl bg-white/10 py-4 text-base sm:text-lg font-medium hover:bg-yellow-400/20 active:scale-95 transition"
 >
 Moyennement
 </button>
 
 <button
 onClick={()=>answer(5)}
-className="rounded-2xl bg-white/10 py-5 text-lg font-medium hover:bg-green-500/20 transition"
+className="rounded-2xl bg-white/10 py-4 text-base sm:text-lg font-medium hover:bg-green-500/20 active:scale-95 transition"
 >
 Beaucoup
 </button>
 
 </div>
 
-<p className="mt-10 text-sm text-white/50">
+<p className="mt-6 sm:mt-8 text-xs sm:text-sm text-white/50">
 10 questions • moins de 2 minutes
 </p>
 
