@@ -339,26 +339,36 @@ export default function ResultPage() {
     className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
   />
 
-  <div className="flex flex-col sm:flex-row gap-4">
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+  <div className="flex flex-col">
+    <label className="text-white/70 text-sm mb-1">
+      Date de naissance
+    </label>
 
     <input
       type="date"
-      placeholder="Votre date de naissance"
       value={birthDate}
       onChange={(e)=>setBirthDate(e.target.value)}
       required
       className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
     />
+  </div>
+
+  <div className="flex flex-col">
+    <label className="text-white/70 text-sm mb-1">
+      Heure de naissance
+    </label>
 
     <input
       type="time"
-      placeholder="Votre heure de naissance"
       value={birthTime}
       onChange={(e)=>setBirthTime(e.target.value)}
       className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
     />
-
   </div>
+
+</div>
 
   <input
     type="text"
