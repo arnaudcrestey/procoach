@@ -20,6 +20,7 @@ export default function ResultPage() {
 
   const [analysisRequested, setAnalysisRequested] = useState(false);
   const [sending, setSending] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   // Charger réponses quiz
   useEffect(() => {
@@ -156,7 +157,7 @@ export default function ResultPage() {
 
       if (result.success) {
 
-        alert("Votre demande a été envoyée. Vous recevrez bientôt votre analyse.");
+        setSubmitted(true);
 
       } else {
 
@@ -172,6 +173,44 @@ export default function ResultPage() {
     }
 
     setSending(false);
+
+  }
+
+  // PAGE DE CONFIRMATION
+  if (submitted) {
+
+    return (
+
+      <main className="flex min-h-screen items-center justify-center px-6 text-center">
+
+        <div className="glass max-w-xl rounded-2xl p-10">
+
+          <h2 className="text-3xl font-semibold mb-4">
+            ✓ Demande envoyée
+          </h2>
+
+          <p className="text-white/80 leading-relaxed">
+            Merci pour votre confiance.
+          </p>
+
+          <p className="mt-3 text-white/80 leading-relaxed">
+            Votre première lecture personnalisée vous sera envoyée
+            par email dans quelques instants.
+          </p>
+
+          <p className="mt-6 text-white/60 text-sm">
+            Pensez à vérifier vos spams si vous ne voyez rien apparaître.
+          </p>
+
+          <div className="mt-8 text-white/80 font-semibold">
+            Cabinet Astrae
+          </div>
+
+        </div>
+
+      </main>
+
+    );
 
   }
 
