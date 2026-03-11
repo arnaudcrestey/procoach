@@ -317,63 +317,67 @@ export default function ResultPage() {
         </p>
 
         <form
-          onSubmit={handleSubmit}
-          className="mt-8 grid gap-4 max-w-xl mx-auto"
-        >
+  onSubmit={handleSubmit}
+  className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
+>
 
-          <input
-            type="text"
-            placeholder="Votre prénom"
-            value={firstName}
-            onChange={(e)=>setFirstName(e.target.value)}
-            required
-            className="w-full rounded-lg bg-white/90 px-4 py-3 text-black"
-          />
+  <input
+    type="text"
+    placeholder="Votre prénom"
+    value={firstName}
+    onChange={(e)=>setFirstName(e.target.value)}
+    required
+    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+  />
 
-          <input
-            type="email"
-            placeholder="Votre email pour recevoir votre analyse"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
-            required
-            className="w-full rounded-lg bg-white/90 px-4 py-3 text-black"
-          />
+  <input
+    type="email"
+    placeholder="Votre email pour recevoir votre analyse"
+    value={email}
+    onChange={(e)=>setEmail(e.target.value)}
+    required
+    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+  />
 
-          <input
-            type="date"
-            value={birthDate}
-            onChange={(e)=>setBirthDate(e.target.value)}
-            required
-            className="w-full rounded-lg bg-white/90 px-4 py-3 text-black"
-          />
+  <div className="flex flex-col sm:flex-row gap-4">
 
-          <input
-            type="time"
-            value={birthTime}
-            onChange={(e)=>setBirthTime(e.target.value)}
-            className="w-full rounded-lg bg-white/90 px-4 py-3 text-black"
-          />
+    <input
+      type="date"
+      value={birthDate}
+      onChange={(e)=>setBirthDate(e.target.value)}
+      required
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+    />
 
-          <input
-            type="text"
-            placeholder="Ville, pays"
-            value={birthPlace}
-            onChange={(e)=>setBirthPlace(e.target.value)}
-            required
-            className="w-full rounded-lg bg-white/90 px-4 py-3 text-black"
-          />
+    <input
+      type="time"
+      value={birthTime}
+      onChange={(e)=>setBirthTime(e.target.value)}
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+    />
 
-          <button
-            type="submit"
-            disabled={!analysis || sending}
-            className="mt-3 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white disabled:opacity-50"
-          >
-            Recevoir ma première analyse
-          </button>
+  </div>
 
-        </form>
+  <input
+    type="text"
+    placeholder="Ville de naissance"
+    value={birthPlace}
+    onChange={(e)=>setBirthPlace(e.target.value)}
+    required
+    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+  />
 
-        <p className="mt-6 text-sm text-white/60">
+  <button
+    type="submit"
+    disabled={!analysis || sending}
+    className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white disabled:opacity-50 active:scale-95 transition"
+  >
+    Recevoir ma première analyse
+  </button>
+
+</form>
+
+            <p className="mt-6 text-sm text-white/60">
           Vos informations restent confidentielles et ne seront jamais partagées.
         </p>
 
