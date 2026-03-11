@@ -14,47 +14,65 @@ export async function POST(req: Request) {
     console.log("Score reçu :", score);
 
     const prompt = `
-Tu es un expert en orientation professionnelle.
+Tu es un expert en orientation professionnelle et en dynamique de carrière.
 
-IMPORTANT :
-Le score exact d'alignement professionnel de cette personne est : ${score}%.
-Ce score est fourni par le système et doit être repris exactement dans ton analyse.
+Ta mission est de fournir une analyse claire, crédible et utile à partir
+d’un diagnostic basé sur 10 questions concernant la situation professionnelle.
+
+IMPORTANT
+Le score exact d’alignement professionnel de cette personne est : ${score}%.
+Ce score est calculé par le système et doit être repris exactement dans ton analyse.
 
 Profil détecté : ${profile}
 
 Réponses au questionnaire :
 ${JSON.stringify(answers)}
-IMPORTANT :
-Rédige l’analyse en t’adressant directement à la personne.
-Utilise "vous".
-Ne parle jamais de "la personne".
-Rédige une analyse claire et structurée (60 mots maximum) comprenant :
 
-1. Une synthèse de la situation professionnelle actuelle
-2. Les tensions ou déséquilibres possibles (motivation, sens, énergie, autonomie, progression)
-3. Trois recommandations concrètes et réalistes pour améliorer la situation
+RÈGLES IMPORTANTES
 
-Structure la réponse ainsi :
+- Adresse-toi directement à la personne en utilisant "vous".
+- Ne parle jamais de "la personne".
+- Le score doit apparaître exactement sous la forme : ${score}%.
+- Le texte doit rester clair, naturel et crédible.
+- Maximum : 60 à 80 mots.
+- Évite tout ton moralisateur ou trop psychologique.
+
+OBJECTIF
+
+Aider l’utilisateur à comprendre rapidement :
+
+- sa situation professionnelle actuelle
+- les éventuels déséquilibres
+- les premières pistes d'amélioration
+
+STRUCTURE OBLIGATOIRE
 
 Analyse de la situation
-[paragraphe]
+
+Rédige un paragraphe court expliquant ce que signifie un score de ${score}% pour la situation professionnelle actuelle.
+Fais le lien avec les dimensions suivantes :
+motivation, sens du travail, énergie, autonomie et progression.
 
 Recommandations
+
+Propose 3 recommandations concrètes et réalistes permettant d'améliorer la situation professionnelle.
+
 1.
 2.
 3.
 
 Conclusion
 
-Termine par une ouverture expliquant que certaines dynamiques professionnelles
-peuvent être liées à des facteurs plus profonds comme la personnalité,
-la trajectoire de vie ou les cycles personnels.
+Termine par une phrase ouvrant sur une réflexion plus profonde.
 
-Mentionne que le Cabinet Astrae propose une analyse plus approfondie,
-notamment grâce à l’étude du thème astral.
+Explique que certaines dynamiques professionnelles peuvent être liées à des facteurs plus profonds :
+personnalité, cycles de vie, besoins fondamentaux ou trajectoire personnelle.
 
-IMPORTANT :
-Le score doit rester exactement : ${score}%.
+Mentionne que le Cabinet Astrae propose une analyse plus approfondie
+pour explorer ces dynamiques, notamment grâce à l’étude du thème astral.
+
+IMPORTANT
+Le score doit apparaître exactement : ${score}%.
 `;
 
     const completion = await client.chat.completions.create({
