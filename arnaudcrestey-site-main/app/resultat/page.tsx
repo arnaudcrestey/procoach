@@ -339,33 +339,105 @@ export default function ResultPage() {
     className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
   />
 
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <div className="flex flex-col gap-4">
 
-  <div className="flex flex-col">
-    <label className="text-white/70 text-sm mb-1">
-      Date de naissance
-    </label>
+  <label className="text-white/70 text-sm">
+    Date de naissance
+  </label>
+
+  <div className="grid grid-cols-3 gap-3">
 
     <input
-      type="date"
-      value={birthDate}
-      onChange={(e)=>setBirthDate(e.target.value)}
-      required
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+      type="number"
+      placeholder="Jour"
+      min="1"
+      max="31"
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
+      onChange={(e)=>{
+        const day = e.target.value.padStart(2,"0");
+        setBirthDate(prev => {
+          const parts = prev.split("-");
+          const month = parts[1] || "";
+          const year = parts[2] || "";
+          return `${day}-${month}-${year}`;
+        });
+      }}
     />
+
+    <input
+      type="number"
+      placeholder="Mois"
+      min="1"
+      max="12"
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
+      onChange={(e)=>{
+        const month = e.target.value.padStart(2,"0");
+        setBirthDate(prev => {
+          const parts = prev.split("-");
+          const day = parts[0] || "";
+          const year = parts[2] || "";
+          return `${day}-${month}-${year}`;
+        });
+      }}
+    />
+
+    <input
+      type="number"
+      placeholder="Année"
+      min="1900"
+      max="2100"
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
+      onChange={(e)=>{
+        const year = e.target.value;
+        setBirthDate(prev => {
+          const parts = prev.split("-");
+          const day = parts[0] || "";
+          const month = parts[1] || "";
+          return `${day}-${month}-${year}`;
+        });
+      }}
+    />
+
   </div>
 
-  <div className="flex flex-col">
-    <label className="text-white/70 text-sm mb-1">
-      Heure de naissance
-    </label>
+  <label className="text-white/70 text-sm mt-2">
+    Heure de naissance (optionnel)
+  </label>
+
+  <div className="grid grid-cols-2 gap-3">
 
     <input
-      type="time"
-      value={birthTime}
-      onChange={(e)=>setBirthTime(e.target.value)}
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
+      type="number"
+      placeholder="Heure"
+      min="0"
+      max="23"
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
+      onChange={(e)=>{
+        const hour = e.target.value.padStart(2,"0");
+        setBirthTime(prev => {
+          const parts = prev.split(":");
+          const minute = parts[1] || "";
+          return `${hour}:${minute}`;
+        });
+      }}
     />
+
+    <input
+      type="number"
+      placeholder="Minute"
+      min="0"
+      max="59"
+      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
+      onChange={(e)=>{
+        const minute = e.target.value.padStart(2,"0");
+        setBirthTime(prev => {
+          const parts = prev.split(":");
+          const hour = parts[0] || "";
+          return `${hour}:${minute}`;
+        });
+      }}
+    />
+
   </div>
 
 </div>
