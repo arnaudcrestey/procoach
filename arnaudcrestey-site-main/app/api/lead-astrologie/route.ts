@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 
+export const runtime = "nodejs";
+
 let lastRequestTime = 0;
 
 export async function POST(req: Request) {
