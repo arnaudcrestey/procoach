@@ -314,8 +314,8 @@ export default function ResultPage() {
         </p>
 
         <p className="mt-6 text-white/70 max-w-2xl mx-auto leading-relaxed">
-          Recevez gratuitement une première lecture personnalisée :
-        </p>
+  Recevez <strong>gratuitement</strong> une première lecture personnalisée :
+</p>
 
         <form
   onSubmit={handleSubmit}
