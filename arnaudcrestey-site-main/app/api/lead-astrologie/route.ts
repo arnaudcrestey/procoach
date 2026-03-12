@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
 
-    const { firstName, birthDate, birthTime, birthPlace } = body;
+    const { firstName, email, birthDate, birthTime, birthPlace,score } = body;
 
     // Vérification champs
     if (!birthDate || !birthPlace) {
