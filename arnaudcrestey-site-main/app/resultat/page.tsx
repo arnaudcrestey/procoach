@@ -402,7 +402,7 @@ export default function ResultPage() {
   </div>
 
   <label className="text-white/70 text-sm mt-2">
-    Heure de naissance (optionnel)
+    Heure de naissance
   </label>
 
   <div className="grid grid-cols-2 gap-3">
