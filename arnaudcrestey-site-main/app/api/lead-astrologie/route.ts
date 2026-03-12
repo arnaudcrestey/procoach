@@ -73,21 +73,25 @@ export async function POST(req: Request) {
   subject: "Nouveau LEAD PROCOACH",
 
   html: `
-        <h2>Nouveau lead Astrae</h2>
+        <h2>Nouveau LEAD PROCOACH</h2>
 
-        <p><strong>Prénom :</strong> ${firstName ?? "Non renseigné"}</p>
+<p><strong>Score :</strong> ${score ?? "Non calculé"}</p>
 
-        <p><strong>Date de naissance :</strong> ${birthDate}</p>
+<p><strong>Prénom :</strong> ${firstName ?? "Non renseigné"}</p>
 
-        <p><strong>Heure de naissance :</strong> ${birthTime || "Non renseignée"}</p>
+<p><strong>Email :</strong> ${email ?? "Non renseigné"}</p>
 
-        <p><strong>Lieu de naissance :</strong> ${birthPlace}</p>
+<p><strong>Date de naissance :</strong> ${birthDate}</p>
 
-        <hr>
+<p><strong>Heure de naissance :</strong> ${birthTime || "Non renseignée"}</p>
 
-        <p style="color:#666">
-        Ce message provient automatiquement du formulaire ProCoach.
-        </p>
+<p><strong>Lieu de naissance :</strong> ${birthPlace}</p>
+
+<hr>
+
+<p style="color:#666">
+Ce message provient automatiquement du formulaire ProCoach.
+</p>
 `
 });
 
