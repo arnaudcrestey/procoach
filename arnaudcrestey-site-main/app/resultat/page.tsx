@@ -140,7 +140,8 @@ export default function ResultPage() {
       email,
       birthDate,
       birthTime,
-      birthPlace
+      birthPlace,
+      score: alignmentScore
     };
 
     try {
