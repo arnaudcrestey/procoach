@@ -66,13 +66,13 @@ export async function POST(req: Request) {
     // Envoi email
     const info = await transporter.sendMail({
 
-      from: `"Astrae" <${EMAIL_USER}>`,
+  from: `"Astrae" <${EMAIL_USER}>`,
 
-      to: "arnaud.crestey14@gmail.com",
+  to: "arnaud.crestey14@gmail.com",
 
-      subject: "Nouvelle demande analyse astrale",
+  subject: "Nouveau LEAD PROCOACH",
 
-      html: `
+  html: `
         <h2>Nouveau lead Astrae</h2>
 
         <p><strong>Prénom :</strong> ${firstName ?? "Non renseigné"}</p>
@@ -88,8 +88,8 @@ export async function POST(req: Request) {
         <p style="color:#666">
         Ce message provient automatiquement du formulaire ProCoach.
         </p>
-      `
-    });
+`
+});
 
     console.log("Email envoyé :", info.response);
 
