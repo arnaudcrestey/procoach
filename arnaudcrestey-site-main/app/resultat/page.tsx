@@ -9,13 +9,10 @@ import { computeResults } from "@/lib/quiz";
 export default function ResultPage() {
 
   const [answers, setAnswers] = useState<number[]>([]);
-  const [analysis, setAnalysis] = useState("");
+  const [analysis, setAnalysis] = useState<string | null>(null);
 
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-
-  const [birthDate, setBirthDate] = useState("");
-  const [birthTime, setBirthTime] = useState("");
   const [birthPlace, setBirthPlace] = useState("");
 
   const [analysisRequested, setAnalysisRequested] = useState(false);
@@ -23,6 +20,7 @@ export default function ResultPage() {
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
+
     if (typeof window === "undefined") return;
 
     const rawAnswers = localStorage.getItem("procoach_answers");
@@ -30,11 +28,15 @@ export default function ResultPage() {
     if (rawAnswers) {
       setAnswers(JSON.parse(rawAnswers));
     }
+
   }, []);
 
   const result = useMemo(() => {
+
     if (!answers.length) return null;
+
     return computeResults(answers);
+
   }, [answers]);
 
   const alignmentScore = useMemo(() => {
@@ -47,13 +49,8 @@ export default function ResultPage() {
 
     const avg = values.reduce((a, b) => a + b, 0) / values.length;
     const normalized = ((avg - 1) / 4) * 100;
-    const score = Math.round(normalized);
 
-    if (typeof window !== "undefined") {
-      localStorage.setItem("procoach_score", score.toString());
-    }
-
-    return score;
+    return Math.round(normalized);
 
   }, [result]);
 
@@ -69,7 +66,9 @@ export default function ResultPage() {
 
         const res = await fetch("/api/diagnostic", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json"
+          },
           body: JSON.stringify({
             answers,
             profile: result?.profile?.title ?? "",
@@ -84,7 +83,13 @@ export default function ResultPage() {
         }
 
       } catch (error) {
+
         console.error("Erreur analyse :", error);
+
+        setAnalysis(
+          "Une erreur est survenue lors de la génération de l'analyse."
+        );
+
       }
 
     }
@@ -104,8 +109,6 @@ export default function ResultPage() {
     const data = {
       firstName,
       email,
-      birthDate,
-      birthTime,
       birthPlace,
       score: alignmentScore
     };
@@ -114,21 +117,29 @@ export default function ResultPage() {
 
       const res = await fetch("/api/lead-astrologie", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(data)
       });
 
       const result = await res.json();
 
       if (result.success) {
+
         setSubmitted(true);
+
       } else {
+
         alert("Une erreur est survenue.");
+
       }
 
     } catch (error) {
+
       console.error("Erreur envoi :", error);
       alert("Erreur de connexion au serveur.");
+
     }
 
     setSending(false);
@@ -136,8 +147,11 @@ export default function ResultPage() {
   }
 
   if (submitted) {
+
     return (
+
       <main className="flex min-h-screen items-center justify-center px-6 text-center">
+
         <div className="glass max-w-xl rounded-2xl p-10">
 
           <h2 className="text-3xl font-semibold mb-4">
@@ -162,8 +176,11 @@ export default function ResultPage() {
           </div>
 
         </div>
+
       </main>
+
     );
+
   }
 
   return (
@@ -194,8 +211,6 @@ export default function ResultPage() {
 
       )}
 
-      {/* SCORE */}
-
       <section className="glass mt-8 rounded-2xl p-6 text-center">
 
         <p className="text-lg text-white/80">
@@ -212,25 +227,29 @@ export default function ResultPage() {
 
       </section>
 
-      {/* ANALYSE */}
+      <section className="glass mt-8 rounded-2xl p-6">
 
-      {analysis && (
+        <h3 className="text-xl font-semibold mb-3">
+          Analyse personnalisée
+        </h3>
 
-        <section className="glass mt-8 rounded-2xl p-6">
+        {!analysis && (
 
-          <h3 className="text-xl font-semibold mb-3">
-            Analyse personnalisée
-          </h3>
+          <p className="text-white/60 italic">
+            Analyse en cours… 🔎
+          </p>
+
+        )}
+
+        {analysis && (
 
           <p className="text-white/80 leading-relaxed">
             {analysis}
           </p>
 
-        </section>
+        )}
 
-      )}
-
-      {/* FORMULAIRE ASTRAE */}
+      </section>
 
       <section className="mt-12 rounded-2xl border border-white/10 bg-gradient-to-b from-white/5 to-white/0 p-10 text-center shadow-xl">
 
@@ -291,8 +310,6 @@ export default function ResultPage() {
         </form>
 
       </section>
-
-      {/* PARTAGE TOUT EN BAS */}
 
       <section className="mt-12 text-center">
 
