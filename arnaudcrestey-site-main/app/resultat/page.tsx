@@ -22,9 +22,7 @@ export default function ResultPage() {
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // Charger réponses quiz
   useEffect(() => {
-
     if (typeof window === "undefined") return;
 
     const rawAnswers = localStorage.getItem("procoach_answers");
@@ -32,42 +30,18 @@ export default function ResultPage() {
     if (rawAnswers) {
       setAnswers(JSON.parse(rawAnswers));
     }
-
   }, []);
 
-  // Calcul profil
   const result = useMemo(() => {
-
     if (!answers.length) return null;
-
     return computeResults(answers);
-
   }, [answers]);
 
-  // Calcul score
   const alignmentScore = useMemo(() => {
 
     if (!result?.radar) return 0;
 
-    let values: number[] = [];
-
-    if (Array.isArray(result.radar)) {
-
-      values = result.radar.map((item: any) => {
-
-        if (typeof item === "number") return item;
-        if (item?.value) return Number(item.value);
-        if (item?.score) return Number(item.score);
-
-        return 0;
-
-      });
-
-    } else {
-
-      values = Object.values(result.radar).map((v: any) => Number(v));
-
-    }
+    const values = result.radar.map((item: any) => Number(item.score ?? 0));
 
     if (!values.length) return 0;
 
@@ -83,12 +57,9 @@ export default function ResultPage() {
 
   }, [result]);
 
-  // Génération analyse IA
   useEffect(() => {
 
-    if (!result) return;
-    if (!alignmentScore) return;
-    if (analysisRequested) return;
+    if (!result || !alignmentScore || analysisRequested) return;
 
     setAnalysisRequested(true);
 
@@ -98,9 +69,7 @@ export default function ResultPage() {
 
         const res = await fetch("/api/diagnostic", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             answers,
             profile: result?.profile?.title ?? "",
@@ -115,9 +84,7 @@ export default function ResultPage() {
         }
 
       } catch (error) {
-
         console.error("Erreur analyse :", error);
-
       }
 
     }
@@ -126,7 +93,6 @@ export default function ResultPage() {
 
   }, [result, alignmentScore, answers, analysisRequested]);
 
-  // Envoi formulaire
   async function handleSubmit(e: React.FormEvent) {
 
     e.preventDefault();
@@ -148,42 +114,30 @@ export default function ResultPage() {
 
       const res = await fetch("/api/lead-astrologie", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
 
       const result = await res.json();
 
       if (result.success) {
-
         setSubmitted(true);
-
       } else {
-
         alert("Une erreur est survenue.");
-
       }
 
     } catch (error) {
-
       console.error("Erreur envoi :", error);
       alert("Erreur de connexion au serveur.");
-
     }
 
     setSending(false);
 
   }
 
-  // PAGE DE CONFIRMATION
   if (submitted) {
-
     return (
-
       <main className="flex min-h-screen items-center justify-center px-6 text-center">
-
         <div className="glass max-w-xl rounded-2xl p-10">
 
           <h2 className="text-3xl font-semibold mb-4">
@@ -208,11 +162,8 @@ export default function ResultPage() {
           </div>
 
         </div>
-
       </main>
-
     );
-
   }
 
   return (
@@ -261,19 +212,7 @@ export default function ResultPage() {
 
       </section>
 
-      {/* PARTAGE */}
-
-      <section className="mt-6 text-center">
-
-        <p className="text-white/70 mb-3">
-          Partagez votre diagnostic avec vos collègues ou amis.
-        </p>
-
-        <ShareButtons />
-
-      </section>
-
-      {/* ANALYSE IA */}
+      {/* ANALYSE */}
 
       {analysis && (
 
@@ -300,171 +239,68 @@ export default function ResultPage() {
         </h2>
 
         <p className="text-white/80 max-w-2xl mx-auto leading-relaxed">
-          Votre score suggère que certaines dynamiques professionnelles
-          peuvent être liées à des facteurs plus profonds que le simple
-          contexte de travail.
+          Au <strong>Cabinet Astrae</strong>, l’étude du thème astral
+          permet d’explorer les dynamiques personnelles qui influencent
+          les choix de vie et les orientations professionnelles.
         </p>
 
-        <p className="mt-4 text-white/80 max-w-2xl mx-auto leading-relaxed">
-          Au <strong>Cabinet Astrae</strong>, l’étude du
-          <strong> thème astral</strong> est utilisée comme outil
-          d’introspection pour mieux comprendre les dynamiques
-          personnelles qui influencent les choix de vie et
-          les orientations professionnelles.
+        <p className="mt-6 text-lg text-white font-medium">
+          🎁 Recevez gratuitement votre première lecture personnalisée
         </p>
-
-        <p className="mt-6 text-lg text-white text-center font-medium">
-  🎁 Recevez <span className="text-cyan-300 font-bold">gratuitement</span> votre première lecture personnalisée
-</p>
 
         <form
-  onSubmit={handleSubmit}
-  className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
->
+          onSubmit={handleSubmit}
+          className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
+        >
 
-  <input
-    type="text"
-    placeholder="Votre prénom"
-    value={firstName}
-    onChange={(e)=>setFirstName(e.target.value)}
-    required
-    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
-  />
+          <input
+            type="text"
+            placeholder="Votre prénom"
+            value={firstName}
+            onChange={(e)=>setFirstName(e.target.value)}
+            required
+            className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+          />
 
-  <input
-    type="email"
-    placeholder="Votre email"
-    value={email}
-    onChange={(e)=>setEmail(e.target.value)}
-    required
-    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
-  />
+          <input
+            type="email"
+            placeholder="Votre email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+            required
+            className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+          />
 
-  <div className="flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Ville de naissance"
+            value={birthPlace}
+            onChange={(e)=>setBirthPlace(e.target.value)}
+            required
+            className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+          />
 
-  <label className="text-white/70 text-sm">
-    Date de naissance
-  </label>
+          <button
+            type="submit"
+            disabled={!analysis || sending}
+            className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white disabled:opacity-50"
+          >
+            Recevoir ma première analyse
+          </button>
 
-  <div className="grid grid-cols-3 gap-3">
+        </form>
 
-    <input
-      type="number"
-      placeholder="Jour"
-      min="1"
-      max="31"
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
-      onChange={(e)=>{
-        const day = e.target.value.padStart(2,"0");
-        setBirthDate(prev => {
-          const parts = prev.split("-");
-          const month = parts[1] || "";
-          const year = parts[2] || "";
-          return `${day}-${month}-${year}`;
-        });
-      }}
-    />
+      </section>
 
-    <input
-      type="number"
-      placeholder="Mois"
-      min="1"
-      max="12"
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
-      onChange={(e)=>{
-        const month = e.target.value.padStart(2,"0");
-        setBirthDate(prev => {
-          const parts = prev.split("-");
-          const day = parts[0] || "";
-          const year = parts[2] || "";
-          return `${day}-${month}-${year}`;
-        });
-      }}
-    />
+      {/* PARTAGE TOUT EN BAS */}
 
-    <input
-      type="number"
-      placeholder="Année"
-      min="1900"
-      max="2100"
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
-      onChange={(e)=>{
-        const year = e.target.value;
-        setBirthDate(prev => {
-          const parts = prev.split("-");
-          const day = parts[0] || "";
-          const month = parts[1] || "";
-          return `${day}-${month}-${year}`;
-        });
-      }}
-    />
+      <section className="mt-12 text-center">
 
-  </div>
-
-  <label className="text-white/70 text-sm mt-2">
-    Heure de naissance
-  </label>
-
-  <div className="grid grid-cols-2 gap-3">
-
-    <input
-      type="number"
-      placeholder="Heure"
-      min="0"
-      max="23"
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
-      onChange={(e)=>{
-        const hour = e.target.value.padStart(2,"0");
-        setBirthTime(prev => {
-          const parts = prev.split(":");
-          const minute = parts[1] || "";
-          return `${hour}:${minute}`;
-        });
-      }}
-    />
-
-    <input
-      type="number"
-      placeholder="Minute"
-      min="0"
-      max="59"
-      className="w-full rounded-xl bg-white px-4 py-3 text-black text-center outline-none focus:ring-2 focus:ring-cyan-400"
-      onChange={(e)=>{
-        const minute = e.target.value.padStart(2,"0");
-        setBirthTime(prev => {
-          const parts = prev.split(":");
-          const hour = parts[0] || "";
-          return `${hour}:${minute}`;
-        });
-      }}
-    />
-
-  </div>
-
-</div>
-
-  <input
-    type="text"
-    placeholder="Ville de naissance"
-    value={birthPlace}
-    onChange={(e)=>setBirthPlace(e.target.value)}
-    required
-    className="w-full rounded-xl bg-white px-4 py-3 text-black text-base outline-none focus:ring-2 focus:ring-cyan-400"
-  />
-
-  <button
-    type="submit"
-    disabled={!analysis || sending}
-    className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white disabled:opacity-50 active:scale-95 transition"
-  >
-    Recevoir ma première analyse
-  </button>
-
-</form>
-
-            <p className="mt-6 text-sm text-white/60">
-          Vos informations restent confidentielles et ne seront jamais partagées.
+        <p className="text-white/70 mb-3">
+          Partagez ce diagnostic avec quelqu’un qui traverse peut-être la même situation.
         </p>
+
+        <ShareButtons />
 
       </section>
 
