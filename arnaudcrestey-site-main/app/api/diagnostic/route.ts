@@ -53,16 +53,6 @@ Rédige un paragraphe court expliquant ce que signifie un score de ${score}% pou
 Fais le lien avec les dimensions suivantes :
 motivation, sens du travail, énergie, autonomie et progression.
 
-Recommandations
-
-Propose 3 recommandations concrètes et réalistes permettant d'améliorer la situation professionnelle.
-
-1.
-2.
-3.
-
-Conclusion
-
 Termine par une phrase ouvrant sur une réflexion plus profonde.
 
 Explique que certaines dynamiques professionnelles peuvent être liées à des facteurs plus profonds :
