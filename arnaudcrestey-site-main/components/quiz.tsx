@@ -1,4 +1,4 @@
-import { QuizQuestion } from "@/lib/quiz";
+import type { QuizQuestion } from "@/lib/quiz";
 
 export function Quiz({
   current,
