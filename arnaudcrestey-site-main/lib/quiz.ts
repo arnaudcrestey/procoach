@@ -248,7 +248,7 @@ export function computeResults(answers: number[]) {
       { subject: "Sens", score: averages.sens },
       { subject: "Énergie", score: averages.energie },
       { subject: "Autonomie", score: averages.autonomie },
-      { subject: "Progression", score: averages.progression }
+      { subject: "Evolution", score: averages.progression }
     ]
   };
 }
