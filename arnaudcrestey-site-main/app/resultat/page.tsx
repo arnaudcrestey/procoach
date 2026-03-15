@@ -25,7 +25,7 @@ const [analysisRequested,setAnalysisRequested] = useState(false);
 const [sending,setSending] = useState(false);
 const [submitted,setSubmitted] = useState(false);
 
-/* récupérer les réponses */
+/* récupération réponses */
 
 useEffect(()=>{
 
@@ -37,7 +37,7 @@ setAnswers(JSON.parse(rawAnswers));
 
 },[]);
 
-/* calcul résultats */
+/* résultats */
 
 const result = useMemo(()=>{
 
@@ -47,7 +47,7 @@ return computeResults(answers);
 
 },[answers]);
 
-/* calcul score */
+/* score */
 
 const alignmentScore = useMemo(()=>{
 
@@ -57,7 +57,7 @@ const values = result.radar.map((item:any)=>item.score);
 
 const avg = values.reduce((a,b)=>a+b,0) / values.length;
 
-/* normalisation correcte */
+/* conversion 1-3 → 0-100 */
 
 const normalized = ((avg - 1) / 2) * 100;
 
@@ -65,7 +65,7 @@ return Math.round(normalized);
 
 },[result]);
 
-/* génération analyse GPT */
+/* génération analyse */
 
 useEffect(()=>{
 
@@ -82,7 +82,7 @@ method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
 answers,
-profile: result.profile?.title ?? "",
+profile: result?.profile?.title ?? "",
 score: alignmentScore
 })
 });
@@ -109,7 +109,7 @@ generateAnalysis();
 
 },[result,alignmentScore,answers,analysisRequested]);
 
-/* envoi formulaire */
+/* formulaire */
 
 async function handleSubmit(e:React.FormEvent){
 
@@ -158,7 +158,7 @@ setSending(false);
 
 }
 
-/* page confirmation */
+/* confirmation */
 
 if(submitted){
 
@@ -295,21 +295,32 @@ Date de naissance
 
 <div className="grid grid-cols-3 gap-3">
 
-<input type="text" inputMode="numeric" placeholder="Jour"
+<input
+type="text"
+inputMode="numeric"
+placeholder="Jour"
 value={birthDay}
 onChange={(e)=>setBirthDay(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
+/>
 
-<input type="text" inputMode="numeric" placeholder="Mois"
+<input
+type="text"
+inputMode="numeric"
+placeholder="Mois"
 value={birthMonth}
 onChange={(e)=>setBirthMonth(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
+/>
 
-<input type="text" inputMode="numeric"
+<input
+type="text"
+inputMode="numeric"
 placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "An" : "Année"}
 value={birthYear}
 onChange={(e)=>setBirthYear(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
+/>
 
 </div>
 
@@ -319,15 +330,23 @@ Heure de naissance
 
 <div className="grid grid-cols-2 gap-3">
 
-<input type="text" inputMode="numeric" placeholder="Heure"
+<input
+type="text"
+inputMode="numeric"
+placeholder="Heure"
 value={birthHour}
 onChange={(e)=>setBirthHour(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
+/>
 
-<input type="text" inputMode="numeric" placeholder="Minute"
+<input
+type="text"
+inputMode="numeric"
+placeholder="Minute"
 value={birthMinute}
 onChange={(e)=>setBirthMinute(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
+/>
 
 </div>
 
