@@ -25,9 +25,9 @@ const [analysisRequested,setAnalysisRequested] = useState(false);
 const [sending,setSending] = useState(false);
 const [submitted,setSubmitted] = useState(false);
 
-useEffect(()=>{
+/* récupérer les réponses */
 
-if(typeof window === "undefined") return;
+useEffect(()=>{
 
 const rawAnswers = localStorage.getItem("procoach_answers");
 
@@ -37,6 +37,8 @@ setAnswers(JSON.parse(rawAnswers));
 
 },[]);
 
+/* calcul résultats */
+
 const result = useMemo(()=>{
 
 if(!answers.length) return null;
@@ -45,21 +47,25 @@ return computeResults(answers);
 
 },[answers]);
 
+/* calcul score */
+
 const alignmentScore = useMemo(()=>{
 
 if(!result?.radar) return 0;
 
-const values = result.radar.map((item:any)=>Number(item.score ?? 0));
-
-if(!values.length) return 0;
+const values = result.radar.map((item:any)=>item.score);
 
 const avg = values.reduce((a,b)=>a+b,0) / values.length;
 
-const normalized = ((avg - 1) / 4) * 100;
+/* normalisation correcte */
+
+const normalized = ((avg - 1) / 2) * 100;
 
 return Math.round(normalized);
 
 },[result]);
+
+/* génération analyse GPT */
 
 useEffect(()=>{
 
@@ -76,7 +82,7 @@ method:"POST",
 headers:{ "Content-Type":"application/json" },
 body:JSON.stringify({
 answers,
-profile: result?.profile?.title ?? "",
+profile: result.profile?.title ?? "",
 score: alignmentScore
 })
 });
@@ -102,6 +108,8 @@ setAnalysis(
 generateAnalysis();
 
 },[result,alignmentScore,answers,analysisRequested]);
+
+/* envoi formulaire */
 
 async function handleSubmit(e:React.FormEvent){
 
@@ -141,7 +149,7 @@ alert("Une erreur est survenue.");
 
 }catch(error){
 
-console.error("Erreur envoi :",error);
+console.error(error);
 alert("Erreur serveur.");
 
 }
@@ -149,6 +157,8 @@ alert("Erreur serveur.");
 setSending(false);
 
 }
+
+/* page confirmation */
 
 if(submitted){
 
@@ -173,6 +183,8 @@ Votre première lecture personnalisée vous sera envoyée prochainement.
 );
 
 }
+
+/* page résultat */
 
 return(
 
@@ -283,35 +295,21 @@ Date de naissance
 
 <div className="grid grid-cols-3 gap-3">
 
-<input
-type="text"
-inputMode="numeric"
-placeholder="Jour"
+<input type="text" inputMode="numeric" placeholder="Jour"
 value={birthDay}
 onChange={(e)=>setBirthDay(e.target.value)}
-required
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
-/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
 
-<input
-type="text"
-inputMode="numeric"
-placeholder="Mois"
+<input type="text" inputMode="numeric" placeholder="Mois"
 value={birthMonth}
 onChange={(e)=>setBirthMonth(e.target.value)}
-required
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
-/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
 
-<input
-type="text"
-inputMode="numeric"
+<input type="text" inputMode="numeric"
+placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "An" : "Année"}
 value={birthYear}
 onChange={(e)=>setBirthYear(e.target.value)}
-required
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
-placeholder={typeof window !== "undefined" && window.innerWidth < 640 ? "An" : "Année"}
-/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
 
 </div>
 
@@ -321,23 +319,15 @@ Heure de naissance
 
 <div className="grid grid-cols-2 gap-3">
 
-<input
-type="text"
-inputMode="numeric"
-placeholder="Heure"
+<input type="text" inputMode="numeric" placeholder="Heure"
 value={birthHour}
 onChange={(e)=>setBirthHour(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
-/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
 
-<input
-type="text"
-inputMode="numeric"
-placeholder="Minute"
+<input type="text" inputMode="numeric" placeholder="Minute"
 value={birthMinute}
 onChange={(e)=>setBirthMinute(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
-/>
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"/>
 
 </div>
 
@@ -346,7 +336,6 @@ type="text"
 placeholder="Ville de naissance"
 value={birthPlace}
 onChange={(e)=>setBirthPlace(e.target.value)}
-required
 className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
@@ -355,9 +344,7 @@ type="submit"
 disabled={!analysis || sending}
 className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 py-4 text-lg font-semibold text-white disabled:opacity-50"
 >
-
 {sending ? "Envoi..." : "Recevoir ma première analyse"}
-
 </button>
 
 </form>
