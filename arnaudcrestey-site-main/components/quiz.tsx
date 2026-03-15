@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo } from "react";
 import type { QuizQuestion } from "@/lib/quiz";
 
 type QuizProps = {
@@ -8,6 +11,11 @@ type QuizProps = {
 };
 
 export default function Quiz({ current, total, question, onSelect }: QuizProps) {
+
+  // mélange les réponses une seule fois par question
+  const shuffledAnswers = useMemo(() => {
+    return [...question.answers].sort(() => Math.random() - 0.5);
+  }, [question]);
 
   return (
 
@@ -23,7 +31,7 @@ export default function Quiz({ current, total, question, onSelect }: QuizProps) 
 
       <div className="mt-8 space-y-3">
 
-        {question.answers.map((answer) => (
+        {shuffledAnswers.map((answer) => (
 
           <button
             key={answer.label}
