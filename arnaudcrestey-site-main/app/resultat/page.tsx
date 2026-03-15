@@ -162,22 +162,9 @@ return(
 ✓ Demande envoyée
 </h2>
 
-<p className="text-white/80 leading-relaxed">
-Merci pour votre confiance.
+<p className="text-white/80">
+Votre première lecture personnalisée vous sera envoyée prochainement.
 </p>
-
-<p className="mt-3 text-white/80 leading-relaxed">
-Votre première lecture personnalisée vous sera envoyée
-par email dans quelques instants.
-</p>
-
-<p className="mt-6 text-white/60 text-sm">
-Pensez à vérifier vos spams si vous ne voyez rien apparaître.
-</p>
-
-<div className="mt-8 text-white/80 font-semibold">
-Cabinet Astrae
-</div>
 
 </div>
 
@@ -264,12 +251,12 @@ les choix de vie et les orientations professionnelles.
 </p>
 
 <p className="mt-6 text-lg text-white font-medium">
-🎁 Recevez gratuitement votre première lecture personnalisée
+🎁 Recevez <span className="font-bold text-cyan-400">gratuitement</span> votre première lecture personnalisée
 </p>
 
 <form
 onSubmit={handleSubmit}
-className="mt-8 flex flex-col gap-4 w-full max-w-md mx-auto"
+className="mt-8 grid gap-4 w-full max-w-md mx-auto"
 >
 
 <input
@@ -290,7 +277,7 @@ required
 className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
-<div className="flex flex-col sm:flex-row gap-2">
+<div className="grid grid-cols-3 gap-2">
 
 <input
 type="text"
@@ -298,7 +285,7 @@ placeholder="Jour"
 value={birthDay}
 onChange={(e)=>setBirthDay(e.target.value)}
 required
-className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
 <input
@@ -307,7 +294,7 @@ placeholder="Mois"
 value={birthMonth}
 onChange={(e)=>setBirthMonth(e.target.value)}
 required
-className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
 <input
@@ -316,19 +303,19 @@ placeholder="Année"
 value={birthYear}
 onChange={(e)=>setBirthYear(e.target.value)}
 required
-className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
 </div>
 
-<div className="flex flex-col sm:flex-row gap-2">
+<div className="grid grid-cols-2 gap-2">
 
 <input
 type="text"
 placeholder="Heure"
 value={birthHour}
 onChange={(e)=>setBirthHour(e.target.value)}
-className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
 <input
@@ -336,7 +323,7 @@ type="text"
 placeholder="Minute"
 value={birthMinute}
 onChange={(e)=>setBirthMinute(e.target.value)}
-className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
 </div>
