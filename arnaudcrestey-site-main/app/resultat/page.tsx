@@ -306,7 +306,7 @@ className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 <input
 type="text"
 inputMode="numeric"
-placeholder="Année"
+placeholder="An"
 value={birthYear}
 onChange={(e)=>setBirthYear(e.target.value)}
 required
