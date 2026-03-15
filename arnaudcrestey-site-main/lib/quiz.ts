@@ -42,7 +42,7 @@ id:4,
 label:"Au réveil, les jours de travail...",
 dimension:"energie",
 answers:[
-{label:"A",value:2,text:"Cela dépend des journées."},
+{label:"A",value:2,text:"Mon énergie varie selon les jours."},
 {label:"B",value:1,text:"Je manque souvent d’énergie ou d’envie."},
 {label:"C",value:3,text:"Je démarre généralement avec énergie."}
 ]},
