@@ -142,7 +142,7 @@ alert("Une erreur est survenue.");
 }catch(error){
 
 console.error("Erreur envoi :",error);
-alert("Erreur de connexion au serveur.");
+alert("Erreur serveur.");
 
 }
 
@@ -277,53 +277,66 @@ required
 className="w-full rounded-xl bg-white px-4 py-3 text-black outline-none"
 />
 
-<div className="grid grid-cols-3 gap-2">
+<p className="text-sm text-white/70 text-left">
+Date de naissance
+</p>
+
+<div className="grid grid-cols-3 gap-3">
 
 <input
 type="text"
+inputMode="numeric"
 placeholder="Jour"
 value={birthDay}
 onChange={(e)=>setBirthDay(e.target.value)}
 required
-className="rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 />
 
 <input
 type="text"
+inputMode="numeric"
 placeholder="Mois"
 value={birthMonth}
 onChange={(e)=>setBirthMonth(e.target.value)}
 required
-className="rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 />
 
 <input
 type="text"
+inputMode="numeric"
 placeholder="Année"
 value={birthYear}
 onChange={(e)=>setBirthYear(e.target.value)}
 required
-className="rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 />
 
 </div>
 
-<div className="grid grid-cols-2 gap-2">
+<p className="text-sm text-white/70 text-left">
+Heure de naissance
+</p>
+
+<div className="grid grid-cols-2 gap-3">
 
 <input
 type="text"
+inputMode="numeric"
 placeholder="Heure"
 value={birthHour}
 onChange={(e)=>setBirthHour(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 />
 
 <input
 type="text"
+inputMode="numeric"
 placeholder="Minute"
 value={birthMinute}
 onChange={(e)=>setBirthMinute(e.target.value)}
-className="rounded-xl bg-white px-4 py-3 text-black outline-none"
+className="rounded-xl bg-white px-4 py-3 text-black text-center outline-none"
 />
 
 </div>
