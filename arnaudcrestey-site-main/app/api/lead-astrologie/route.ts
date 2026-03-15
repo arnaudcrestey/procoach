@@ -6,76 +6,84 @@ let lastRequestTime = 0;
 
 export async function POST(req: Request) {
 
-  try {
+try{
 
-    const now = Date.now();
+const now = Date.now();
 
-    // Protection double appel (React dev mode)
-    if (now - lastRequestTime < 3000) {
-      return Response.json({ success: true });
-    }
+if(now - lastRequestTime < 3000){
+return Response.json({ success:true });
+}
 
-    lastRequestTime = now;
+lastRequestTime = now;
 
-    const body = await req.json();
+const body = await req.json();
 
-    const { firstName, email, birthDate, birthTime, birthPlace,score } = body;
+const {
+firstName,
+email,
+birthDay,
+birthMonth,
+birthYear,
+birthHour,
+birthMinute,
+birthPlace,
+score
+} = body;
 
-    // Vérification champs
-    if (!birthDate || !birthPlace) {
+const birthDate = `${birthDay}/${birthMonth}/${birthYear}`;
+const birthTime = `${birthHour}:${birthMinute}`;
 
-      return Response.json(
-        { success: false, message: "Champs manquants" },
-        { status: 400 }
-      );
+if(!birthDay || !birthMonth || !birthYear || !birthPlace){
 
-    }
+return Response.json(
+{ success:false, message:"Champs manquants" },
+{ status:400 }
+);
 
-    // Vérification variables env
-    const EMAIL_USER = process.env.EMAIL_USER;
-    const EMAIL_PASS = process.env.EMAIL_PASS;
+}
 
-    if (!EMAIL_USER || !EMAIL_PASS) {
+const EMAIL_USER = process.env.EMAIL_USER;
+const EMAIL_PASS = process.env.EMAIL_PASS;
 
-      console.error("Variables email manquantes");
+if(!EMAIL_USER || !EMAIL_PASS){
 
-      return Response.json(
-        { success: false, message: "Configuration email incorrecte" },
-        { status: 500 }
-      );
+console.error("Variables email manquantes");
 
-    }
+return Response.json(
+{ success:false, message:"Configuration email incorrecte" },
+{ status:500 }
+);
 
-    // Configuration SMTP Gmail
-    const transporter = nodemailer.createTransport({
+}
 
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
+const transporter = nodemailer.createTransport({
 
-      auth: {
-        user: EMAIL_USER,
-        pass: EMAIL_PASS
-      },
+host:"smtp.gmail.com",
+port:465,
+secure:true,
 
-      // nécessaire en dev local
-      tls: {
-        rejectUnauthorized: false
-      }
+auth:{
+user:EMAIL_USER,
+pass:EMAIL_PASS
+},
 
-    });
+tls:{
+rejectUnauthorized:false
+}
 
-    // Envoi email
-    const info = await transporter.sendMail({
+});
 
-  from: `"Astrae" <${EMAIL_USER}>`,
+const info = await transporter.sendMail({
 
-  to: "arnaud.crestey14@gmail.com",
+from:`"Astrae" <${EMAIL_USER}>`,
 
-  subject: "Nouveau LEAD PROCOACH",
+to:"arnaud.crestey14@gmail.com",
 
-  html: `
-        <h2>Nouveau LEAD PROCOACH</h2>
+subject:"Nouveau LEAD PROCOACH",
+
+html:`
+
+<h2>Nouveau LEAD PROCOACH</h2>
 
 <p><strong>Score :</strong> ${score ?? "Non calculé"}</p>
 
@@ -85,7 +93,7 @@ export async function POST(req: Request) {
 
 <p><strong>Date de naissance :</strong> ${birthDate}</p>
 
-<p><strong>Heure de naissance :</strong> ${birthTime || "Non renseignée"}</p>
+<p><strong>Heure de naissance :</strong> ${birthTime}</p>
 
 <p><strong>Lieu de naissance :</strong> ${birthPlace}</p>
 
@@ -94,22 +102,24 @@ export async function POST(req: Request) {
 <p style="color:#666">
 Ce message provient automatiquement du formulaire ProCoach.
 </p>
+
 `
+
 });
 
-    console.log("Email envoyé :", info.response);
+console.log("Email envoyé :", info.response);
 
-    return Response.json({ success: true });
+return Response.json({ success:true });
 
-  } catch (error) {
+}catch(error){
 
-    console.error("Erreur envoi mail :", error);
+console.error("Erreur envoi mail :", error);
 
-    return Response.json(
-      { success: false, message: "Erreur serveur email" },
-      { status: 500 }
-    );
+return Response.json(
+{ success:false, message:"Erreur serveur email" },
+{ status:500 }
+);
 
-  }
+}
 
 }
