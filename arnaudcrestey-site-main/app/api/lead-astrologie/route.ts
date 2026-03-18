@@ -111,15 +111,18 @@ console.log("Email envoyé :", info.response);
 
 return Response.json({ success:true });
 
-}catch(error){
+}catch(error: any){
 
-console.error("Erreur envoi mail :", error);
+  console.error("Erreur envoi mail :", error);
 
-return Response.json(
-{ success:false, message:"Erreur serveur email" },
-{ status:500 }
-);
-
-}
+  return Response.json(
+    {
+      success: false,
+      message: error?.message || "Erreur serveur email",
+      code: error?.code || null,
+      response: error?.response || null
+    },
+    { status: 500 }
+  );
 
 }
