@@ -154,29 +154,34 @@ async function handleSubmit(e: React.FormEvent) {
 }
 
 /* confirmation */
+if (submitted) {
+  return (
+    <main className="flex min-h-screen items-center justify-center px-6 py-10">
+      <div className="w-full max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center shadow-2xl backdrop-blur-xl">
+        <div className="mb-6 flex justify-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300/80 to-violet-400/80 text-3xl shadow-lg">
+            ✨
+          </div>
+        </div>
 
-if(submitted){
+        <h2 className="mb-4 text-4xl font-bold text-white">
+          Demande confirmée
+        </h2>
 
-return(
+        <p className="mb-4 text-lg text-white/85">
+          Votre demande a bien été enregistrée.
+        </p>
 
-<main className="flex min-h-screen items-center justify-center px-6 text-center">
+        <p className="text-white/70">
+          Votre première lecture personnalisée vous sera envoyée très prochainement.
+        </p>
 
-<div className="glass max-w-xl rounded-2xl p-10">
-
-<h2 className="text-3xl font-semibold mb-4">
-✓ Demande envoyée
-</h2>
-
-<p className="text-white/80">
-Votre première lecture personnalisée vous sera envoyée prochainement.
-</p>
-
-</div>
-
-</main>
-
-);
-
+        <p className="mt-8 text-sm text-white/45">
+         ✨ Pensez à vérifier votre boîte email ainsi que vos spams.
+        </p>
+      </div>
+    </main>
+  );
 }
 
 /* page résultat */
