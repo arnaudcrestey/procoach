@@ -111,51 +111,46 @@ generateAnalysis();
 
 /* formulaire */
 
-async function handleSubmit(e:React.FormEvent){
+async function handleSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-e.preventDefault();
+  if (sending) return;
 
-if(sending) return;
+  setSending(true);
 
-setSending(true);
+  const data = {
+    firstName,
+    email,
+    birthDay,
+    birthMonth,
+    birthYear,
+    birthHour,
+    birthMinute,
+    birthPlace,
+    score: alignmentScore,
+  };
 
-const data = {
-firstName,
-email,
-birthDay,
-birthMonth,
-birthYear,
-birthHour,
-birthMinute,
-birthPlace,
-score: alignmentScore
-};
+  try {
+    const res = await fetch("/api/lead-astrologie", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
 
-try{
+    const result = await res.json();
 
-const res = await fetch("/api/lead-astrologie",{
-method:"POST",
-headers:{ "Content-Type":"application/json" },
-body:JSON.stringify(data)
-});
-
-const result = await res.json();
-
-if(result.success){
-setSubmitted(true);
-}else{
-alert("Une erreur est survenue.");
-}
-
-}catch(error){
-
-console.error(error);
-alert("Erreur serveur.");
-
-}
-
-setSending(false);
-
+    if (res.ok && result?.success) {
+      setSubmitted(true);
+    } else {
+      console.error("Erreur API /api/lead-astrologie :", result);
+      alert(result?.message || result?.error || "Une erreur est survenue.");
+    }
+  } catch (error) {
+    console.error("Erreur fetch :", error);
+    alert("Erreur serveur.");
+  } finally {
+    setSending(false);
+  }
 }
 
 /* confirmation */
