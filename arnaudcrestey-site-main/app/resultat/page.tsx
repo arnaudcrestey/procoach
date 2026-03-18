@@ -158,12 +158,7 @@ if (submitted) {
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-10">
       <div className="w-full max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-10 text-center shadow-2xl backdrop-blur-xl">
-        <div className="mb-6 flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-300/80 to-violet-400/80 text-3xl shadow-lg">
-            ✨
-          </div>
-        </div>
-
+        
         <h2 className="mb-4 text-4xl font-bold text-white">
           Demande confirmée
         </h2>
