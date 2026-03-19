@@ -81,7 +81,7 @@ export function ShareButtons() {
           onClick={copyMessage}
           className="rounded-xl border border-white/20 px-4 py-2 text-center text-sm text-white transition hover:bg-white/10"
         >
-          {copied ? "Copié ✓" : "Copier"}
+          {copied ? "Message copié ✓" : "Copier le message"}
         </button>
 
         <a
