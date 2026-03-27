@@ -368,7 +368,7 @@ className="mt-2 w-full rounded-xl bg-gradient-to-r from-cyan-400 to-violet-500 p
 <section className="mt-12 text-center">
 
 
-<ShareButtons />
+<ShareButtons score={alignmentScore} />
 
 </section>
 
