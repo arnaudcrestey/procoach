@@ -1,24 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export function ShareButtons() {
-  const [score, setScore] = useState<number | null>(null);
+export function ShareButtons({ score }: { score: number }) {
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    const storedScore = localStorage.getItem("procoach_score");
-    if (storedScore) {
-      setScore(Number(storedScore));
-    }
-  }, []);
 
   const shareUrl =
     typeof window !== "undefined"
       ? `${window.location.origin}/`
       : "https://procoach.vercel.app/";
 
-  const shareText = `J’ai réalisé un diagnostic sur ma situation professionnelle. Mon score d’alignement actuel : ${score ?? "?"} %. Découvrez votre propre positionnement en quelques minutes.`;
+  const shareText = `J’ai réalisé un diagnostic sur ma situation professionnelle. Mon score d’alignement actuel : ${score} %. Découvrez votre propre positionnement en quelques minutes.`;
 
   const encodedText = encodeURIComponent(shareText);
   const encodedUrl = encodeURIComponent(shareUrl);
